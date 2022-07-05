@@ -39,12 +39,12 @@
 	<ScriptSettings><![CDATA[
 {
   "CircularMap": true,
-  "Description": "This map displays a reconstruction of the ancient city Napata. [color=\"red\"]Note:[/color] The map is not intended to be playable.",
+  "Description": "This map displays some of the Han buildings. [color=\"red\"]Note:[/color] The map is not intended to be playable.",
   "Keywords": [
     "demo",
     "new"
   ],
-  "Name": "A23 Kushites",
+  "Name": "A26 Hans",
   "PlayerData": [
     null,
     {
@@ -56,7 +56,7 @@
   "TriggerScripts": [
     "scripts/TriggerHelper.js",
 	"scripts/cinematics/CinemaHelper.js",
-    "scenarios/a26_hans.js"
+    "scripts/a26_hans.js"
   ],
   "VictoryConditions": []
 }
