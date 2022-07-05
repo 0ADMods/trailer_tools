@@ -1,3 +1,9 @@
+#!/bin/sh
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: © 2022 Stanislas Daniel Claude Dolcini
+# SPDX-FileCopyrightText: © 2022 Vladislav Belov
+# SPDX-FileCopyrightText: © 2022 Sander Deryckere
+
 import os
 import re
 import sys

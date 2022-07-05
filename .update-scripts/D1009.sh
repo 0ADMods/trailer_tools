@@ -1,3 +1,7 @@
+#!/bin/sh
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: © 2022 Andy Alt
+
 find maps/ \( -name '*.js' -o -name '*.json' -o -name '*.xml' \) -print0 | xargs -0 sed -i \
   -e 's,gaia/flora_bush_badlands,gaia/tree/bush_badlands,g' \
   -e 's,gaia/flora_bush_temperate_winter,gaia/tree/bush_temperate_winter,g' \
