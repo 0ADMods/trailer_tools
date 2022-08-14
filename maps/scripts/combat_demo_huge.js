@@ -54,10 +54,12 @@ class CombatDemoHugeScript {
      * @param {number} data.owner
      * @param {number} data.formation
      * @param {boolean} data.debug
+     * @param {boolean} data.debugIndex
      */
     SendMoveCommand(data) {
         if (data.debug) {
-            const ent = Engine.AddEntity("trigger/trigger_point_A");
+            const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'];
+            const ent = Engine.AddEntity("trigger/trigger_point_" + letters[data.debugIndex]);
             const cmpPosition = Engine.QueryInterface(ent, IID_Position);
             if (cmpPosition)
                 cmpPosition.MoveTo(data.waypoint.x, data.waypoint.y);
@@ -87,11 +89,15 @@ class CombatDemoHugeScript {
 
 
     Start() {
-        var mx = 192;
-        var mz = 128;
+        const numOfPatches = 7;
+        const numOfBlocks = 8;
+        const mzOffset = 42.0;
+        const middle = 64.0 * numOfPatches / 2.0;
+        var mx = middle;
+        var mz = middle - ((numOfBlocks - 1) * mzOffset / 2.0);
         var sep = 25;
 
-        for (let i = 0; i < 8; ++i) {
+        for (let i = 0; i < numOfBlocks; ++i) {
             // Create ally units.
             this.SendMoveCommand({
                 "queued": false,
@@ -99,7 +105,8 @@ class CombatDemoHugeScript {
                 "entities": this.CreateBlock("units/rome/infantry_spearman_e", 1, Math.PI / 2, mx - sep - 6, mz, 16, 4, 2.1, 3.0),
                 "owner": 1,
                 "formation": "special/formations/testudo",
-                "debug": true
+                "debug": true,
+                "debugIndex": i
             })
 
             let allyRanged = this.CreateBlock("units/rome/infantry_javelineer_e", 1, Math.PI / 2, mx - sep, mz, 8, 1, 5.0, 3.0);
@@ -114,24 +121,23 @@ class CombatDemoHugeScript {
             this.SendMoveCommand({
                 "queued": false,
                 "waypoint": new Vector2D(mx, mz),
-                "entities": this.CreateBlock("units/athen/infantry_spearman_e", 2, 3 * Math.PI / 2, mx + sep + 6, mz, 16, 4, 2.1, 3.0),
+                "entities": this.CreateBlock("units/brit/infantry_spearman_e", 2, 3 * Math.PI / 2, mx + sep + 6, mz, 16, 4, 2.1, 3.0),
                 "owner": 2,
-                "formation": "special/formations/phalanx"
+                "formation": "special/formations/box"
             })
 
-            let enemyRanged = this.CreateBlock("units/athen/infantry_marine_archer_b", 2, 3 * Math.PI / 2, mx + sep, mz, 8, 1, 5.0, 3.0);
-            enemyRanged = enemyRanged.concat(this.CreateBlock("units/athen/infantry_marine_archer_b", 2, 3 * Math.PI / 2, mx + sep + 2, mz, 7, 1, 5.0, 3.0));
+            let enemyRanged = this.CreateBlock("units/brit/infantry_javelineer_e", 2, 3 * Math.PI / 2, mx + sep, mz, 8, 1, 5.0, 3.0);
+            enemyRanged = enemyRanged.concat(this.CreateBlock("units/brit/infantry_javelineer_e", 2, 3 * Math.PI / 2, mx + sep + 2, mz, 7, 1, 5.0, 3.0));
             this.SetStance({
                 "stance": "standground",
                 "owner": 2,
                 "entities": enemyRanged
             })
-            mz += 42;
+            mz += mzOffset;
         }
     }
 }
 
-if (!g_CombatDemoHugeScript) {
-    var g_CombatDemoHugeScript = new CombatDemoHugeScript();
-    g_CombatDemoHugeScript.Start();
+{
+    new CombatDemoHugeScript().Start();
 }
