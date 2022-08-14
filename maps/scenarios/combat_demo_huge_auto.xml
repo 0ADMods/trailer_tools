@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scenario version="7">
+	<Terrain patches="9" texture="blackness" priority="0" height="16384"/>
+	<Environment>
+		<SkySet>default</SkySet>
+		<SunColor r="1.5" g="1.5" b="1.5"/>
+		<SunElevation angle="0.785398"/>
+		<SunRotation angle="5.49779"/>
+		<AmbientColor r="0.501961" g="0.501961" b="0.501961"/>
+		<Water>
+			<WaterBody>
+				<Type>lake</Type>
+				<Color r="0.3" g="0.35" b="0.7"/>
+				<Height>5</Height>
+				<Waviness>3.0</Waviness>
+				<Murkiness>0.45</Murkiness>
+				<Tint r="0.28" g="0.3" b="0.59"/>
+			</WaterBody>
+		</Water>
+	</Environment>
+	<Camera>
+		<Position x="192" y="80" z="-2.20961"/>
+		<Rotation angle="0"/>
+		<Declination angle="0.3"/>
+	</Camera>
+	<ScriptSettings><![CDATA[
+{
+  "CircularMap": true,
+  "Description": "This map displays some of the Han buildings. [color=\"red\"]Note:[/color] The map is not intended to be playable.",
+  "Keywords": [
+    "demo",
+    "new"
+  ],
+  "Name": "Combat Demo Huge Auto",
+		"PlayerData":
+		[
+			{
+				"Civ":"rome"
+			},
+			{
+				"Civ":"athen",
+				"AI":""
+			}
+		],
+  "RevealMap": true,
+  "TriggerScripts": [
+    "scripts/TriggerHelper.js",
+	"scripts/cinematics/CinemaHelper.js",
+    "scripts/combat_demo_huge.js"
+  ],
+  "VictoryConditions": []
+}
+]]></ScriptSettings>
+	<Entities/>
+	<Paths/>
+</Scenario>
