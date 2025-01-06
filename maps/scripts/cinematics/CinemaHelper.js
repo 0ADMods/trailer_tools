@@ -51,6 +51,26 @@ class CinemaManagerScript {
         };
     };
 
+    /**
+     * Get start/end coordinates with `warn(JSON.stringify(Engine.GetTerrainAtScreenPoint(mouseX, mouseY)));`.
+     * Get camera coordinates with `warn(JSON.stringify([Engine.GetCameraPosition(), Engine.GetCameraRotation()]))`
+     */
+    Travelling(cameraStart, cameraEnd, start, end)
+    {
+        start = new Vector3D(start.x, start.y, start.z);
+        end = new Vector3D(end.x, end.y, end.z);
+        cameraStart = new Vector3D(cameraStart.x, cameraStart.y, cameraStart.z);
+        cameraEnd = new Vector3D(cameraEnd.x, cameraEnd.y, cameraEnd.z);
+        const vec = Vector3D.sub(end, start).mult(0.2);
+        const cvec = Vector3D.sub(cameraEnd, cameraStart).mult(0.2);
+        return [
+            [0, Vector3D.sub(cameraStart, cvec), Vector3D.sub(start, vec)],
+            [2, cameraStart, start],
+            [7, cameraEnd, end],
+            [9, Vector3D.add(cameraEnd, cvec), Vector3D.add(end, vec)],
+        ];
+    };
+
     Cutscene(nodes) {
         this.SetupCinematics();
         const cmpCinemaManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_CinemaManager);
@@ -104,6 +124,33 @@ const CircleAndZoomOut = [
     [5, { "z": 1205.614990234375, "y": 1030.8682861328125, "x": 1053.8759765625 }, { "z": -0.5014714002609253, "y": -0.7788953185081482, "x": -0.37662771344184875 }],
 ];
 
+const SheepVideo = [
+    [-3, {"z":1221.10791015625,"y":98.03709411621094,"x":776.4122314453125},{"z":-0.5085267424583435,"y":-0.4702669084072113,"x":-0.7212833166122437}],
+    [3, {"z":1147.385009765625,"y":117.99891662597656,"x":736.833251953125},{"z":-0.18009012937545776,"y":-0.6027061343193054,"x":-0.7773756980895996}],
+    [6, {"z":1030.09033203125,"y":135.5229034423828,"x":729.2747802734375},{"z":0.5244688391685486,"y":-0.6027061343193054,"x":-0.6013965606689453}],
+    [12, {"z":798.718994140625,"y":232.4162139892578,"x":645.72216796875},{"z":0.8354641795158386,"y":-0.5479750037193298,"x":-0.04150788113474846}],
+].map(x => {
+    x[2] = Vector3D.add(x[1], Vector3D.mult(x[2], 100));
+    return x;
+});
+
+const Croco = [
+    [ 0, {"z":400,"y":113.28958892822266,"x":181.89434814453125},{"z":0.7450998425483704,"y":-0.49153631925582886,"x":0.45079734921455383}],
+    [ 35, {"z":372.41339111328125,"y":113.28958892822266,"x":181.89434814453125},{"z":0.7450998425483704,"y":-0.49153631925582886,"x":0.45079734921455383}],
+    [ 8, {"z":293.4562683105469,"y":67.50772857666016,"x":135.83969116210938},{"z":0.7570740580558777,"y":-0.2937043607234955,"x":0.5835894346237183}],
+    [ 4, {"z":528.7643432617188,"y":48.75044250488281,"x":264.66973876953125},{"z":0.8401687145233154,"y":-0.2937043607234955,"x":0.45591041445732117}],
+    [ 3, {"z":674.5556030273438,"y":39.3586540222168,"x":306.9540710449219},{"z":0.6703080534934998,"y":-0.2937043607234955,"x":0.6814872622489929}],
+    [ 3, {"z":704.861083984375,"y":39.35865783691406,"x":420.5868225097656},{"z":0.917681872844696,"y":-0.2937043607234955,"x":0.26757755875587463}],
+    [ 3, {"z":696.4364013671875,"y":86.93028259277344,"x":556.3152465820312},{"z":0.6251937747001648,"y":-0.5341529250144958,"x":-0.5690460801124573}],
+    [ 4, {"z":928.5547485351562,"y":121.11668395996094,"x":680.943115234375},{"z":-0.46365004777908325,"y":-0.5341529250144958,"x":-0.7069011926651001}],
+    [ 3, {"z":885.0640258789062,"y":121.11668395996094,"x":385.95770263671875},{"z":-0.40108436346054077,"y":-0.5341529250144958,"x":0.7441854476928711}],
+    [ 3, {"z":727.73876953125,"y":70.24422454833984,"x":488.0421447753906},{"z":0.04931872710585594,"y":-0.3527924418449402,"x":0.9344009757041931}],
+    [ 8, {"z":645.6234741210938,"y":75.24421691894531,"x":560.43994140625},{"z":0.4235682785511017,"y":-0.3527924418449402,"x":0.8343424797058105}],
+        ].map(x => {
+            x[2] = Vector3D.add(x[1], Vector3D.mult(x[2], 100));
+            return x;
+        });
+
 const LowPassSweep = function (speed = 0.5) {
 	return [
 		[0, { "z": -112.52078247070312, "y": 215.32470703125, "x": 677.6026611328125 }, { "z": 0.8205944895744324, "y": -0.55849689245224, "x": -0.12126806378364563 }],
@@ -114,6 +161,21 @@ const LowPassSweep = function (speed = 0.5) {
 		[3 * speed, { "z": 1522.921630859375, "y": 161.7267608642578, "x": 885.3181762695312 }, { "z": 0.8185322880744934, "y": -0.55849689245224, "x": 0.13448473811149597 }],
 	];
 };
+
+/**
+ * 
+ * @param {number} entity the name of the entity to focus on.
+ * @param {number} speed speed of the cutsene. 
+ * @returns 
+ */
+const Watch = function (entity, speed = 0.5, gameSpeed = 1) {
+    const cmpPosition = Engine.QueryInterface(entity, IID_Position);
+    const pos = cmpPosition.GetPosition();
+    return [
+        [0 * speed * gameSpeed,  Vector3D.add(pos, new Vector3D(20, 70, -100)), { "z": 0.8205944895744324, "y": -0.55849689245224, "x": -0.12126806378364563 }],
+        [600 * speed * gameSpeed, Vector3D.add(pos, new Vector3D(280, 980, -1400)), { "z": 0.8205944895744324, "y": -0.55849689245224, "x": -0.12126806378364563 }],
+    ];
+}
 
 /**
  * Get coordinates with `Engine.GetTerrainAtScreenPoint(mouseX, mouseY);` in the console.
@@ -139,5 +201,8 @@ Engine.RegisterGlobal("KushiteCutscene", KushiteCutscene)
 Engine.RegisterGlobal("HelmetDemoCutscene", HelmetDemoCutscene)
 Engine.RegisterGlobal("SweepingCutscene", SweepingCutscene)
 Engine.RegisterGlobal("CircleAndZoomOut", CircleAndZoomOut)
+Engine.RegisterGlobal("SheepVideo", SheepVideo)
+Engine.RegisterGlobal("Croco", Croco)
+Engine.RegisterGlobal("Watch", Watch)
 Engine.RegisterGlobal("LowPassSweep", LowPassSweep)
 Engine.RegisterGlobal("CinemaManagerScript", CinemaManagerScript)

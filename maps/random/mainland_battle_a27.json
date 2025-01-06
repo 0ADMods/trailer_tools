@@ -1,0 +1,23 @@
+{
+	"settings" : {
+		"Name" : "Mainland A27",
+		"Script" : "mainland.js",
+		"Description" : "A typical map without any water.",
+		"Preview" : "mainland.png",
+		"Keywords": ["multiplayer"],
+		"SupportedBiomes": "generic/",
+		"CircularMap" : true,
+		"PlayerPlacements": [
+			"circle",
+			"river",
+			"groupedLines",
+			"randomGroup",
+			"stronghold"
+		],
+        "TriggerScripts": [
+			"scripts/TriggerHelper.js",
+			"scripts/cinematics/CinemaHelper.js",
+			"scripts/mainland_battle_a27.js"
+		]
+	}
+}
