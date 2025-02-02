@@ -36,8 +36,7 @@ binaries/system/pyrogenesis \
     -autostart-revealed=true \
     -conf=fog:false
     
+    OUTPUT="siege-ship.mp4" ../concat.sh  
 
     OUTPUT="isthmus_of_corinth_2p.mp4" ../concat.sh  
  */
-
-    OUTPUT="siege-ship.mp4" ../concat.sh  

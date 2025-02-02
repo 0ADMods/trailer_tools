@@ -105,7 +105,7 @@ class MapScript {
 
 
 
-            self.cinemaManagerScript.Cutscene(Watch(ship1, 1.0, 2.0));
+            self.cinemaManagerScript.Cutscene(Watch(ent, 1.0, 2.0));
         };
         cmpTrigger.DoAfterDelay(1200, "StartCutscene", undefined);
     }
@@ -126,7 +126,7 @@ binaries/system/pyrogenesis \
     -autostart=random/migration_naval_a27 \
     -autostart-disable-replay \
     -autostart-player=-1 \
-    -autostart-size=384 \
+    -autostart-size=512 \
     -autostart-civ=1:gaul \
     -autostart-revealed=true \
     -autostart-victory=endless \
@@ -140,4 +140,7 @@ binaries/system/pyrogenesis \
     -autostart-seed=1
 
     OUTPUT="siege_ship.mp4" ../concat.sh  
+    OUTPUT="arrow-ship-1.mp4" ../concat.sh  
+    OUTPUT="arrow-ship-2.mp4" ../concat.sh  
  */
+

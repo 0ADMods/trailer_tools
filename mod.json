@@ -4,5 +4,5 @@
 	"version": "1.0.0",
 	"url": "",
 	"description": "A collection of trailer maps and scripts.",
-	"dependencies": ["0ad=0.27.0"]
+	"dependencies": ["0ad=0.28.0"]
 }
