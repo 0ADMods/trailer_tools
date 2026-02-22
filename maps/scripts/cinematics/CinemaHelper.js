@@ -163,10 +163,10 @@ const LowPassSweep = function (speed = 0.5) {
 };
 
 /**
- * 
+ *
  * @param {number} entity the name of the entity to focus on.
- * @param {number} speed speed of the cutsene. 
- * @returns 
+ * @param {number} speed speed of the cutsene.
+ * @returns
  */
 const Watch = function (entity, speed = 0.5, gameSpeed = 1) {
     const cmpPosition = Engine.QueryInterface(entity, IID_Position);
@@ -176,6 +176,57 @@ const Watch = function (entity, speed = 0.5, gameSpeed = 1) {
         [600 * speed * gameSpeed, Vector3D.add(pos, new Vector3D(280, 980, -1400)), { "z": 0.8205944895744324, "y": -0.55849689245224, "x": -0.12126806378364563 }],
     ];
 }
+
+/**
+ * Focus the camera on an entity.
+ * @param {number} entity the name of the entity to focus on.
+ * @returns the keyframes of the cutscene.
+ */
+const Focus = function (entity, delay = 500) {
+    const cmpPosition = Engine.QueryInterface(entity, IID_Position);
+    const pos = cmpPosition.GetPosition();
+    return [
+        [0, Vector3D.add(pos, new Vector3D(20, 70, -100)), { "z": 0.8205944895744324, "y": -0.55849689245224, "x": -0.12126806378364563 }],
+        [delay, Vector3D.add(pos, new Vector3D(20, 70, -100)), { "z": 0.8205944895744324, "y": -0.55849689245224, "x": -0.12126806378364563 }],
+    ];
+};
+
+/**
+ * Focus the camera on an entity.
+ * @param {number} entity the name of the entity to focus on.
+ * @returns the keyframes of the cutscene.
+ */
+const FocusTo = function (entity, waypoints, speed = 1) {
+    const cmpPosition = Engine.QueryInterface(entity, IID_Position);
+    const pos = cmpPosition.GetPosition();
+
+    const cameraOffset = new Vector3D(20, 70, -100);
+    const rotation = { "z": 0.8205944895744324, "y": -0.55849689245224, "x": -0.12126806378364563 };
+
+    const result = [];
+
+    // First point (starting position)
+    const startPoint = Vector3D.add(pos, cameraOffset);
+    result.push([0, startPoint, rotation]);
+
+    // Previous position for distance calculation
+    let prevPos = pos;
+
+    for (const waypoint of waypoints)
+    {
+        waypoint.y = pos.y;
+
+        const dist = prevPos.distanceTo(waypoint);   // <-- compute distance
+        const delay = dist * speed * 0.05;                          // <-- constant speed delay
+
+        const camPos = Vector3D.add(waypoint, cameraOffset);
+
+        result.push([delay, camPos, rotation]);
+        prevPos = waypoint;
+    }
+
+    return result;
+};
 
 /**
  * Get coordinates with `Engine.GetTerrainAtScreenPoint(mouseX, mouseY);` in the console.
@@ -197,12 +248,14 @@ var CirclePoint = function (x, y, z, distance = 100.0, height = 100.0, speed = 0
 	return nodes;
 };
 
-Engine.RegisterGlobal("KushiteCutscene", KushiteCutscene)
-Engine.RegisterGlobal("HelmetDemoCutscene", HelmetDemoCutscene)
-Engine.RegisterGlobal("SweepingCutscene", SweepingCutscene)
-Engine.RegisterGlobal("CircleAndZoomOut", CircleAndZoomOut)
-Engine.RegisterGlobal("SheepVideo", SheepVideo)
-Engine.RegisterGlobal("Croco", Croco)
-Engine.RegisterGlobal("Watch", Watch)
-Engine.RegisterGlobal("LowPassSweep", LowPassSweep)
-Engine.RegisterGlobal("CinemaManagerScript", CinemaManagerScript)
+Engine.RegisterGlobal("KushiteCutscene", KushiteCutscene);
+Engine.RegisterGlobal("HelmetDemoCutscene", HelmetDemoCutscene);
+Engine.RegisterGlobal("SweepingCutscene", SweepingCutscene);
+Engine.RegisterGlobal("CircleAndZoomOut", CircleAndZoomOut);
+Engine.RegisterGlobal("SheepVideo", SheepVideo);
+Engine.RegisterGlobal("Croco", Croco);
+Engine.RegisterGlobal("Watch", Watch);
+Engine.RegisterGlobal("Focus", Focus);
+Engine.RegisterGlobal("FocusTo", FocusTo);
+Engine.RegisterGlobal("LowPassSweep", LowPassSweep);
+Engine.RegisterGlobal("CinemaManagerScript", CinemaManagerScript);
