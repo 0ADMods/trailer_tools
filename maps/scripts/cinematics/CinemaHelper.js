@@ -248,6 +248,43 @@ var CirclePoint = function (x, y, z, distance = 100.0, height = 100.0, speed = 0
 	return nodes;
 };
 
+class CameraHelper {
+    constructor(basePosition) {
+        this.base = basePosition;          // usually spawnPointPosition
+        this.offset = new Vector3D(0, 20, -30);
+        this.zoomFactor = 1.0;
+        this.rightAmount = 0;              // x offset for moving left/right
+    }
+
+    setOffset(x, y, z) {
+        this.offset.set(x, y, z);
+        return this;
+    }
+
+	moveForward(amount) {
+		this.offset.z += amount;
+		return this;
+	}
+
+    moveRight(amount) {
+        this.rightAmount += amount;
+        return this;
+    }
+
+    zoom(amount) {
+        this.zoomFactor = amount;  // <1 zooms in, >1 zooms out
+        return this;
+    }
+
+    getPosition() {
+        return new Vector3D(
+            this.base.x + this.offset.x * this.zoomFactor + this.rightAmount,
+            this.base.y + this.offset.y * this.zoomFactor,
+            this.base.z + this.offset.z * this.zoomFactor
+        );
+    }
+}
+
 Engine.RegisterGlobal("KushiteCutscene", KushiteCutscene);
 Engine.RegisterGlobal("HelmetDemoCutscene", HelmetDemoCutscene);
 Engine.RegisterGlobal("SweepingCutscene", SweepingCutscene);
@@ -259,3 +296,4 @@ Engine.RegisterGlobal("Focus", Focus);
 Engine.RegisterGlobal("FocusTo", FocusTo);
 Engine.RegisterGlobal("LowPassSweep", LowPassSweep);
 Engine.RegisterGlobal("CinemaManagerScript", CinemaManagerScript);
+Engine.RegisterGlobal("CameraHelper", CameraHelper);

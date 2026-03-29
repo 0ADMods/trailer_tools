@@ -33,7 +33,7 @@ Trigger.prototype.InitUnitMovements = function () {
 	this.DoAfterDelay(0, "InitRaiders", {});
 	this.DoAfterDelay(2000, "InitArmy", {});
 
-	const mode = 0;
+	const mode = 2;
 	if (mode === 0)
 	{
 		const scriptManager = new CinemaManagerScript("Germans R28");
@@ -53,12 +53,22 @@ Trigger.prototype.InitUnitMovements = function () {
 		};
 		scriptManager.Cutscene(FocusTo(data.entity, data.waypoints, data.delay));
 	}
-
+	else if (mode === 2)
+	{
+		const scriptManager = new CinemaManagerScript("Germans R28");
+		const data = {
+			"waypoints": [
+				new Vector3D(773.6854858398438, 0, 829.782958984375),
+				new Vector3D(744.4961547851562, 0, 779.5713500976562),
+				new Vector3D(722.1239013671875, 0, 755.2864379882812),
+				new Vector3D(697.020263671875, 0, 731.4949340820312),
+			],
+			"delay": 2,
+			"entity": 3560
+		};
+		scriptManager.Cutscene(FocusTo(data.entity, data.waypoints, data.delay));
+	}
 };
-
-
-
-
 
 Trigger.prototype.InitFieldWorkers = function () {
 	executeGatherCommands(this.FieldWorkerCommands);
@@ -142,7 +152,7 @@ Trigger.prototype.WagonTrainCommands = [
 	{ "entities": [3561, 3566, 3567], "x": 648.6864624023438, "z": 682.6261596679688, "queued": true },
 	{ "entities": [3561, 3566, 3567], "x": 564.5372924804688, "z": 589.1119384765625, "queued": true },
 	{ "entities": [3561, 3566, 3567], "x": 507.274169921875, "z": 551.6838989257812, "queued": true },
-	{ "entities": [3560], "x": 799.9285278320312, "z": 874.0572509765625, "queued": false },
+	{ "entities": [3560], "x": 799.9285278320312, "z": 874.0572509765625, "queued": true },
 	{ "entities": [3560], "x": 773.6854858398438, "z": 829.782958984375, "queued": true },
 	{ "entities": [3560], "x": 744.4961547851562, "z": 779.5713500976562, "queued": true },
 	{ "entities": [3560], "x": 722.1239013671875, "z": 755.2864379882812, "queued": true },
@@ -345,11 +355,12 @@ Trigger.prototype.ArmyCommands = {
 }
 /**
 binaries/system/pyrogenesis \
-    -conf=videorendering.path:"/Users/stan/Trailer/" \
+    -conf=videorendering.path:"/Users/stan/Trailer/VIDEO_03/" \
     -conf=videorendering.enabled:true \
     -conf=xres:1920 \
     -conf=yres:1080 \
-	-autostart-speed=1 \
+    -conf=borderless.fullscreen:false \
+    -autostart-speed=1 \
     -conf=videorendering.jpeg_quality:1.0 \
     -mod=mod \
     -mod=public \
@@ -357,9 +368,37 @@ binaries/system/pyrogenesis \
     -conf=fog:false \
     -conf=renderer.scale:2.0 \
     -conf=sharpening:disabled \
+	-conf=shadowscovermap:false \
     -conf=overlay.fps:false \
     -autostart-victory=endless \
     -autostart-visibility=revealed \
     -autostart=scenarios/trailer_germans \
     -fixed-frame-frequency=60
+
+binaries/system/pyrogenesis \
+    -conf=videorendering.path:"/Users/stan/Trailer/VIDEO_04/" \
+    -conf=videorendering.enabled:true \
+    -conf=xres:1920 \
+    -conf=yres:1080 \
+    -conf=borderless.fullscreen:false \
+    -autostart-speed=1 \
+    -conf=videorendering.jpeg_quality:1.0 \
+    -mod=mod \
+    -mod=public \
+    -mod=trailer_tools \
+    -autostart=random/mainland \
+    -autostart-disable-replay \
+    -autostart-player=-1 \
+    -autostart-size=384 \
+    -autostart-civ=1:gaul \
+    -autostart-revealed=true \
+    -autostart-victory=endless \
+    -autostart-speed=1 \
+    -conf=fog:false \
+    -conf=renderer.scale:2.0 \
+    -conf=sharpening:disabled \
+    -autostart-players=2 \
+    -autostart-biome='generic/aegean' \
+    -autostart-seed=0 \
+	-fixed-frame-frequency=60
  */
